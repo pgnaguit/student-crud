@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react'
-import studentService from './api/studentService'
+import studentService, { BASE_URL } from './api/studentService'
 import Navbar from './components/Navbar'
 import SearchBar from './components/SearchBar'
 import StudentTable from './components/StudentTable'
@@ -50,7 +50,7 @@ export default function App() {
       const message =
         err.response?.data?.message ||
         err.message ||
-        'Unable to connect to the Student API backend (http://localhost:8080).'
+        `Unable to connect to the Student API backend (${BASE_URL}).`
       setError(message)
     } finally {
       setIsLoading(false)
@@ -184,7 +184,7 @@ export default function App() {
             <div className="error-content">
               <strong>Connection Notice:</strong> {error}
               <p style={{ marginTop: '0.25rem', fontSize: '0.85rem', color: '#64748b' }}>
-                Ensure your Spring Boot backend is running on <code>http://localhost:8080</code>.
+                Ensure your Spring Boot backend is accessible at <code>{BASE_URL}</code>.
               </p>
             </div>
             <button

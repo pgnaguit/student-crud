@@ -46,8 +46,7 @@ services:
         destination: /index.html
     envVars:
       - key: VITE_API_BASE_URL
-        # Replace this URL with your actual deployed Render backend URL (e.g. https://student-backend.onrender.com)
-        value: https://student-backend.onrender.com
+        value: https://student-backend-mv4v.onrender.com
 
 databases:
   - name: student-db

@@ -1,12 +1,27 @@
 import axios from 'axios'
 
-// Handle base URL cleanly: works with proxy in dev, and with full Render backend URL in prod
-const rawBaseUrl = import.meta.env.VITE_API_BASE_URL || ''
-const BASE_URL = rawBaseUrl
-  ? (rawBaseUrl.endsWith('/naguit/students')
-      ? rawBaseUrl
-      : `${rawBaseUrl.replace(/\/+$/, '')}/naguit/students`)
-  : '/naguit/students'
+// Fallback deployed Render backend URL
+const PROD_BACKEND_URL = 'https://student-backend-mv4v.onrender.com'
+
+// Determine base URL dynamically:
+// 1. Priority to import.meta.env.VITE_API_BASE_URL if explicitly provided
+// 2. Fallback to deployed Render backend URL in production environments
+// 3. In development (without VITE_API_BASE_URL), default to '/naguit/students' (handled by Vite proxy)
+const getBaseUrl = () => {
+  const envUrl = import.meta.env.VITE_API_BASE_URL
+  const rawUrl = envUrl || (import.meta.env.PROD ? PROD_BACKEND_URL : '')
+
+  if (!rawUrl) {
+    return '/naguit/students'
+  }
+
+  const trimmed = rawUrl.replace(/\/+$/, '')
+  return trimmed.endsWith('/naguit/students')
+    ? trimmed
+    : `${trimmed}/naguit/students`
+}
+
+const BASE_URL = getBaseUrl()
 
 const apiClient = axios.create({
   baseURL: BASE_URL,
@@ -47,4 +62,5 @@ export const studentService = {
   },
 }
 
+export { BASE_URL }
 export default studentService
