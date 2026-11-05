@@ -1,7 +1,12 @@
 import axios from 'axios'
 
-// If VITE_API_BASE_URL is provided, use it; otherwise use the relative path (handled by Vite proxy)
-const BASE_URL = import.meta.env.VITE_API_BASE_URL || '/naguit/students'
+// Handle base URL cleanly: works with proxy in dev, and with full Render backend URL in prod
+const rawBaseUrl = import.meta.env.VITE_API_BASE_URL || ''
+const BASE_URL = rawBaseUrl
+  ? (rawBaseUrl.endsWith('/naguit/students')
+      ? rawBaseUrl
+      : `${rawBaseUrl.replace(/\/+$/, '')}/naguit/students`)
+  : '/naguit/students'
 
 const apiClient = axios.create({
   baseURL: BASE_URL,

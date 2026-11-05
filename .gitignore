@@ -1,0 +1,19 @@
+# IDE & OS
+.idea/
+.vscode/
+*.iml
+.DS_Store
+Thumbs.db
+
+# Backend (Spring Boot / Maven)
+student/target/
+student/.mvn/wrapper/maven-wrapper.jar
+student/.settings/
+student/.project
+student/.classpath
+
+# Frontend (Vite / React)
+frontend/node_modules/
+frontend/dist/
+frontend/dist-ssr/
+frontend/*.local
